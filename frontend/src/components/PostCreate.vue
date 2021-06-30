@@ -9,17 +9,21 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field v-model="title" label="제목*" required></v-text-field>
+                <v-text-field
+                  v-model="title"
+                  label="제목*"
+                  required
+                ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="writer" label="작성자*" required></v-text-field>
+                <v-text-field
+                  v-model="writer"
+                  label="작성자*"
+                  required
+                ></v-text-field>
               </v-col>
               <v-col>
-                <v-textarea
-                  filled
-                  label="내용"
-                  v-model="content"
-                ></v-textarea>
+                <v-textarea filled label="내용" v-model="content"></v-textarea>
               </v-col>
             </v-row>
           </v-container>
@@ -27,12 +31,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="close">
-            Close
-          </v-btn>
-          <v-btn color="blue darken-1" text @click="create">
-            Save
-          </v-btn>
+          <v-btn color="blue darken-1" text @click="close"> Close </v-btn>
+          <v-btn color="blue darken-1" text @click="create"> Save </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -40,41 +40,41 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from "vuex";
 export default {
-  data: function(){
-      return {
-          title: '',
-          writer: '',
-          content: '',
-      }
+  data: function () {
+    return {
+      title: "",
+      writer: "",
+      content: "",
+    };
   },
   methods: {
-      close: function() {
-          this.$store.dispatch('changeDialog');
-      },
-      create: function() {
-          this.close();
+    close: function () {
+      this.$store.dispatch("changeDialog");
+    },
+    create: function () {
+      this.close();
 
-          let post = {
-             title: this.title,
-             writer: this.writer,
-             content: this.content
-          };
+      let post = {
+        title: this.title,
+        writer: this.writer,
+        content: this.content,
+      };
 
-          this.$axios.post('posts', post)
-          .then((res) => {
-              console.log(res);
-          }).catch((err) => {
-              console.log(err);
-          })
-      },
-
+      this.$axios
+        .post("posts", post)
+        .then(({ data }) => {
+          console.log('생성된 글 번호는 ' + data);
+          this.$router.push({ name: "PostDetail", params: { id: data } });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   computed: {
-      ...mapGetters([
-          'dialogStatus'
-      ])
-  }
+    ...mapGetters(["dialogStatus"]),
+  },
 };
 </script>

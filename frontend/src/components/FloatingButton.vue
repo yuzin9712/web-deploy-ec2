@@ -2,7 +2,7 @@
   <div @click="postCreate">
     <post-create></post-create>
     <v-fab-transition>
-      <v-btn color="pink" dark relative bottom fab >
+      <v-btn class="ma-5" color="pink" dark relative bottom fab >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>

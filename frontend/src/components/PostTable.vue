@@ -9,10 +9,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in desserts" :key="item.name" @click="getDetail(item)">
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
-          <td>제목</td>
+        <tr v-for="post in posts" :key="post.id" @click="getDetail(post)">
+          <td>{{ post.id }}</td>
+          <td>{{ post.writer }}</td>
+          <td>{{ post.title }}</td>
         </tr>
       </tbody>
     </template>
@@ -21,14 +21,22 @@
 
 <script>
 export default {
+  created: function() {
+    this.$axios.get('posts')
+    .then(({data}) => {
+      this.posts = data;
+    }).catch((err) => {
+      console.log(err);
+    })
+  },
   methods: {
-    getDetail: function (item) {
-      console.log(item);
-      this.$router.push({ name: "PostDetail", params: { id: item.id } });
+    getDetail: function (post) {
+      this.$router.push({ name: "PostDetail", params: { id: post.id } });
     },
   },
   data() {
     return {
+      posts: [],
       desserts: [
         {
           id: 1,
